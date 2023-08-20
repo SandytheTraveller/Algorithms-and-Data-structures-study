@@ -4,7 +4,8 @@ from stack import Stack
 openers = ["(", "[", "{"]
 closers = [")", "]", "}"]
 
-
+# the match is done comparing the indexes of the two lists
+# corresponding to the current open and close elements
 def matches(open, close):
     return openers.index(open) == closers.index(close)
 def parentheses_checker(symbols_string):
