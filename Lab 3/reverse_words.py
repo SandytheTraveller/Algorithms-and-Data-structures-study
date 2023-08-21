@@ -1,3 +1,4 @@
+# solution without template, my own, before I discovered there's an actual template
 class Stack:
     def __init__(self):
         self.items = []
@@ -21,7 +22,8 @@ class Stack:
 
 
 text = input()
-words = text.split()
+words = text.split
+
 for word in words:
     s = Stack()
 
