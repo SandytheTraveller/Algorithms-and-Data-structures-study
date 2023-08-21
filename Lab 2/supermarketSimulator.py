@@ -46,7 +46,7 @@ class Cashdesk:
             self.current_customer = self.queue.deque()
         elif self.current_customer is not None:
             if self.current_customer.items == 0:
-                print("Cash desk", self.id, "served Customer number", self.current_customer.id)
+                print("Cash desk", self.id, "served", self.current_customer.id, "clients.")
                 self.current_customer = None
                 self.tot_customers_served += 1
             else:
@@ -56,22 +56,31 @@ class Cashdesk:
 class Supermarket:
     def __init__(self, num_checdesks):
         # Initialize a list of check decks with dimension num_checdesks
-        self.cashdesks_list =  list(range(num_checdesks, 0, 1))
+        self.cashdesks_list =  [Cashdesk(i) for i in range(1, num_checdesks + 1)]
 
     # Return True if all the check desks are empty, False otherwise
     def isEmpty(self):
-
-        # TODO
+        for i in self.cashdesks_list:
+            if not i.queue.isEmpty() or i.current_customer:
+                return False
+        return True
 
     # Add a new Customer to the check desk with the shortest queue
     def newCustomer(self, new_customer):
+        min_checkdesk = self.cashdesks_list[0]
+        min_len = min_checkdesk.queue.size()
 
-        # TODO
+        for cd in self.cashdesks_list:
+            if cd.queue.size() < min_len:
+                min_checkdesk = cd
+                min_len = cd.queue.size()
+
+        min_checkdesk.addCustomer(new_customer)
 
     # Execute the method checkOut for each check desks
     def run(self):
-
-        # TODO
+        for cd in self.cashdesks_list:
+            cd.checkOut()
 
     # Print the total number of customers served by each check desks
     #
@@ -80,8 +89,8 @@ class Supermarket:
     #       ...
     #
     def printRecap(self):
-
-        # TODO
+        for cdesk in self.cashdesks_list:
+            print("Cash deck", cdesk.id, "served", cdesk.tot_customers_served, "clients")
 
 
 # Test code
@@ -99,10 +108,12 @@ if __name__ == "__main__":
     # Loop until all the customers are entered and served (i.e. both customer_list and all the queues are empty
     # A new Customer enters in the Supermarket with probability of 30% (use random function)
     # The function run is always called at each iteration
-    #
-    # TODO
-    #
 
+    while len(customers_list) > 0 or not mySupermarket.isEmpty():
+        if len(customers_list) > 0 and random.random() > 0.7:
+            customer = customers_list.pop()
+            mySupermarket.newCustomer(customer)
+        mySupermarket.run()
 
     # Print the total number of customers served by each check desk
     mySupermarket.printRecap()
