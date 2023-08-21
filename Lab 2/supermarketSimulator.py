@@ -61,7 +61,7 @@ class Supermarket:
     # Return True if all the check desks are empty, False otherwise
     def isEmpty(self):
 
-                # TODO
+        # TODO
 
     # Add a new Customer to the check desk with the shortest queue
     def newCustomer(self, new_customer):
